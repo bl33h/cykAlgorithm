@@ -1,11 +1,14 @@
+#Copyright (C), 2023-2024, bl33h
+#FileName: main
+#Author: Sara Echeverria, Melissa Perez, Alejandro Ortega
+#Version: I
+#Creation: 18/10/2023
+#Last modification: 25/10/2023
+
 import json
-from Chomsky import *
+from chomsky import *
 
-# Cargar el archivo JSON
-with open('src/input.json', 'r') as archivo:
-    datos = json.load(archivo)
-
-# Acceder a las diferentes secciones de tu JSON
+# Acceder a las diferentes secciones del JSON
 inicial = datos['INICIAL']
 variables = datos['VARIABLES']
 terminales = datos['TERMINALES']
