@@ -1,0 +1,11 @@
+{
+    "INICIAL": "S",
+
+    "VARIABLES":["S"],
+
+    "TERMINALES":["a", "b", "e"],
+
+    "REGLAS": {
+        "S": ["a S a", "b S b", "a", "b", "e", "ε"]
+    }
+}
