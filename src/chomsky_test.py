@@ -33,8 +33,9 @@ class CNFConverter:
         for production in productions:
             if all(self.is_variable(symbol) for symbol in production.split(" ")):
                 # This checks if there's a terminal variable (variable that takes directly to a terminal) in the production
+                # Also 'skips' the origin variable if it's present inside the production (recursive production)
                 # to avoid an infinite recursion loop
-                if any(self.is_terminal_variable(variable) for variable in production.split(" ")): return False
+                if any(self.is_terminal_variable(var) or var != variable for var in production.split(" ")): return False
                 nullable_symbols = []
                 for variable in production.split(" "):
                     nullable_symbols.append(self.is_nullable(variable))
