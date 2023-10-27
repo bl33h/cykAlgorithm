@@ -2,6 +2,7 @@
     "INICIAL": "S",
 
     "VARIABLES":[
+        "S",
         "VP",
         "PP",
         "NP",
