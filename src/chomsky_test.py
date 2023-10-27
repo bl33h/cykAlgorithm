@@ -243,8 +243,8 @@ class CNFConverter:
             # Remove if variable has no productions
             if not self.has_productions(variable):
                 variables_to_remove.append(variable)
-            # Remove if all of its productions can't terminate
-            elif not all(self.can_terminate(variable, prod) for prod in self.grammar["REGLAS"][variable]):
+            # Remove if there's no productions that can terminate
+            elif not any(self.can_terminate(variable, prod) for prod in self.grammar["REGLAS"][variable]):
                 variables_to_remove.append(variable)
             # Remove if it's unreachable from the start variable
             elif variable not in reachable:
