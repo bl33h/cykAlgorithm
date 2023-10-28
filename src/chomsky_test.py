@@ -259,8 +259,6 @@ class CNFConverter:
         self.create_variables_for_terminals()   # TERM
         self.binarize_productions()             # BIN
         self.delete_epsilon_productions()       # DEL
-        print("Pre UNIT grammar:")
-        print(json.dumps(self.grammar, indent=4))
         self.delete_unit_productions()          # UNIT
         self.delete_useless_productions()       # USELESS
         # Return the converted grammar
@@ -278,4 +276,3 @@ cnf_grammar = converter.convert()
 
 # prints the CNF grammar
 print(json.dumps(cnf_grammar, indent=4))
-        
