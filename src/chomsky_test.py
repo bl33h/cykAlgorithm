@@ -263,16 +263,21 @@ class CNFConverter:
         self.delete_useless_productions()       # USELESS
         # Return the converted grammar
         return self.grammar
-        
-# Load the json file
-with open('src/test_grammar_2.json', 'r') as file:
-    grammar = json.load(file)
 
-# Create an instance of the CNFCoverter with the read gammar
-converter = CNFConverter(grammar)
+# Example usage
+if __name__ == "__main__":
+    # Specify the file path for the grammar json
+    file_path = "src/input.json"
+    
+    # Load the json file
+    with open(file_path, "r") as grammar_file:
+        grammar = json.load(grammar_file)
 
-# Convert the grammar
-cnf_grammar = converter.convert()
+    # Create an instance of the CNFCoverter with the read gammar
+    converter = CNFConverter(grammar)
 
-# prints the CNF grammar
-print(json.dumps(cnf_grammar, indent=4))
+    # Convert the grammar
+    cnf_grammar = converter.convert()
+
+    # prints the CNF grammar
+    print(json.dumps(cnf_grammar, indent=4))
