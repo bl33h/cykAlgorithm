@@ -213,23 +213,17 @@ class CNFConverter:
             productions_to_add = []
             productions_to_remove = []
             for origin, productions in self.grammar["REGLAS"].items():
-                print(f"Checking '{origin}' productions: {productions}")
                 for production in productions:
                     if self.is_unit(production):
-                        print("Found UNIT:", production)
                         found_units = True
                         # Store the productions to add to the origin variable and the unit production to remove later
-                        print("\tSet to add productions:", self.grammar["REGLAS"][production])
                         productions_to_add.append( (origin, self.grammar["REGLAS"][production]) )
-                        print("\tSet to remove production:", production)
                         productions_to_remove.append( (origin, production) )
             # Add the stored productions
-            print("Productions to add:", productions_to_add)
             for origin, productions in productions_to_add:
                 for production in productions:
                     self.add_production(origin, production)
             # Remove the stored unit productions
-            print("Productions to remove:", productions_to_remove)
             for origin, production in productions_to_remove:
                 self.grammar["REGLAS"][origin].remove(production)
 
