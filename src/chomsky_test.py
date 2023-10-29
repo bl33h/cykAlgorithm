@@ -213,23 +213,17 @@ class CNFConverter:
             productions_to_add = []
             productions_to_remove = []
             for origin, productions in self.grammar["REGLAS"].items():
-                print(f"Checking '{origin}' productions: {productions}")
                 for production in productions:
                     if self.is_unit(production):
-                        print("Found UNIT:", production)
                         found_units = True
                         # Store the productions to add to the origin variable and the unit production to remove later
-                        print("\tSet to add productions:", self.grammar["REGLAS"][production])
                         productions_to_add.append( (origin, self.grammar["REGLAS"][production]) )
-                        print("\tSet to remove production:", production)
                         productions_to_remove.append( (origin, production) )
             # Add the stored productions
-            print("Productions to add:", productions_to_add)
             for origin, productions in productions_to_add:
                 for production in productions:
                     self.add_production(origin, production)
             # Remove the stored unit productions
-            print("Productions to remove:", productions_to_remove)
             for origin, production in productions_to_remove:
                 self.grammar["REGLAS"][origin].remove(production)
 
@@ -259,23 +253,25 @@ class CNFConverter:
         self.create_variables_for_terminals()   # TERM
         self.binarize_productions()             # BIN
         self.delete_epsilon_productions()       # DEL
-        print("Pre UNIT grammar:")
-        print(json.dumps(self.grammar, indent=4))
         self.delete_unit_productions()          # UNIT
         self.delete_useless_productions()       # USELESS
         # Return the converted grammar
         return self.grammar
-        
-# Load the json file
-with open('src/test_grammar_2.json', 'r') as file:
-    grammar = json.load(file)
 
-# Create an instance of the CNFCoverter with the read gammar
-converter = CNFConverter(grammar)
+# Example usage
+if __name__ == "__main__":
+    # Specify the file path for the grammar json
+    file_path = "src/input.json"
+    
+    # Load the json file
+    with open(file_path, "r") as grammar_file:
+        grammar = json.load(grammar_file)
 
-# Convert the grammar
-cnf_grammar = converter.convert()
+    # Create an instance of the CNFCoverter with the read gammar
+    converter = CNFConverter(grammar)
 
-# prints the CNF grammar
-print(json.dumps(cnf_grammar, indent=4))
-        
+    # Convert the grammar
+    cnf_grammar = converter.convert()
+
+    # prints the CNF grammar
+    print(json.dumps(cnf_grammar, indent=4))
