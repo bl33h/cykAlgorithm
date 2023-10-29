@@ -13,7 +13,7 @@ from CYK import *
 if __name__ == "__main__":
     #-----CFG file-----
     # Load the json file
-    with open("src/input.json", "r") as grammar_file:
+    with open("input.json", "r") as grammar_file:
         grammar = json.load(grammar_file)
 
 
@@ -30,7 +30,7 @@ if __name__ == "__main__":
     #time starts to count
     start = time.time()
     #-----Converted grammar file-----
-    with open("src/input.json", "r") as convertedGrammar_file:
+    with open("input.json", "r") as convertedGrammar_file:
         converterGrammar_json = json.load(convertedGrammar_file)
 
     #-----CYK Parser-----
@@ -55,3 +55,6 @@ if __name__ == "__main__":
     end = time.time()
     processTime = (end - start) * 1000
     print("Execution time: {:0.2f} milliseconds".format(processTime))
+
+    #-----cnf grammar file generator -----
+    cnf_grammar = converter.convert(output_file="cnfGrammar.json")

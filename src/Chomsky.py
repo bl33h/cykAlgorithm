@@ -5,6 +5,8 @@
 #Creation: 18/10/2023
 #Last modification: 29/10/2023
 
+import json
+
 class CNFConverter:
     def __init__(self, grammar: dict, epsilon_symbol: str="ep") -> None:
         self.grammar = grammar
@@ -253,13 +255,15 @@ class CNFConverter:
             self.remove_variable(var)
     
     # Final method to convert a CFG to CNF
-    def convert(self) -> dict:
-        self.replace_initial_symbol()           # START
-        self.create_variables_for_terminals()   # TERM
-        self.binarize_productions()             # BIN
-        self.delete_epsilon_productions()       # DEL
-        self.delete_unit_productions()          # UNIT
-        self.delete_useless_productions()       # USELESS
+    def convert(self, output_file="cnfGrammar.json"):
+        self.replace_initial_symbol()
+        self.create_variables_for_terminals()
+        self.binarize_productions()
+        self.delete_epsilon_productions()
+        self.delete_unit_productions()
+        self.delete_useless_productions()
         # Return the converted grammar
-        return self.grammar
-    
+        converted_grammar = self.grammar
+        with open(output_file, 'w') as json_file:
+            json.dump(converted_grammar, json_file, indent=4)
+        return converted_grammar
