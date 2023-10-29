@@ -1,4 +1,10 @@
-import json
+#Copyright (C), 2023-2024, bl33h
+#FileName: chomsky
+#Author: Sara Echeverria, Melissa Perez, Alejandro Ortega
+#Version: I
+#Creation: 18/10/2023
+#Last modification: 29/10/2023
+
 from typing import Dict
 
 class CYKParser:
@@ -32,21 +38,3 @@ class CYKParser:
 
         # If the start symbol is in the top-right cell, the sentence is in the language
         return self.grammar["INICIAL"] in table[0][n - 1]
-
-# Example usage
-if __name__ == "__main__":
-    # Specify the correct file path
-    grammar_file_path = "src/input.json"
-    
-    with open(grammar_file_path, "r") as grammar_file:
-        grammar_json = json.load(grammar_file)
-    
-    cyk_parser = CYKParser(grammar_json)
-    sentence = "he cooks with a knife"
-    result = cyk_parser.parse(sentence)
-    
-    print(f"Accepted: {result}")
-    if result:
-        print(f"The sentence '{sentence}' is in the language.")
-    else:
-        print(f"The sentence '{sentence}' is not in the language.")
