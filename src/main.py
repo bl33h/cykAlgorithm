@@ -9,7 +9,6 @@ import json
 import time
 from Chomsky import *
 from CYK import *
-from ParseTree import *
 
 if __name__ == "__main__":
     #-----CFG file-----
@@ -44,7 +43,14 @@ if __name__ == "__main__":
         print(f"The sentence '{sentence}' is in the language.")
     else:
         print(f"The sentence '{sentence}' is not in the language.")
-
+    
+    #-----Parse Tree-----
+    is_valid = cyk_parser.parse(sentence)
+    if is_valid:
+        cyk_parser.print_parse_tree()
+    else:
+        pass
+    
     #-----Time-----
     end = time.time()
     processTime = (end - start) * 1000
