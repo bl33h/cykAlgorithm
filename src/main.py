@@ -6,15 +6,15 @@
 #Last modification: 29/10/2023
 
 import json
+import time
 from Chomsky import *
 from CYK import *
+from ParseTree import *
 
 if __name__ == "__main__":
-    # Specify the file path for the grammar json
-    file_path = "src/input.json"
-    
+    #-----CFG file-----
     # Load the json file
-    with open(file_path, "r") as grammar_file:
+    with open("src/input.json", "r") as grammar_file:
         grammar = json.load(grammar_file)
 
 
@@ -28,14 +28,14 @@ if __name__ == "__main__":
     # prints the CNF grammar
     print(json.dumps(cnf_grammar, indent=4))
     
+    #time starts to count
+    start = time.time()
+    #-----Converted grammar file-----
+    with open("src/input.json", "r") as convertedGrammar_file:
+        converterGrammar_json = json.load(convertedGrammar_file)
 
     #-----CYK Parser-----
-    grammar_file_path = "src/input.json"
-    
-    with open(grammar_file_path, "r") as grammar_file:
-        grammar_json = json.load(grammar_file)
-    
-    cyk_parser = CYKParser(grammar_json)
+    cyk_parser = CYKParser(converterGrammar_json)
     sentence = "he cooks with a knife"
     result = cyk_parser.parse(sentence)
     
@@ -44,3 +44,8 @@ if __name__ == "__main__":
         print(f"The sentence '{sentence}' is in the language.")
     else:
         print(f"The sentence '{sentence}' is not in the language.")
+
+    #-----Time-----
+    end = time.time()
+    processTime = (end - start) * 1000
+    print("Execution time: {:0.2f} milliseconds".format(processTime))
