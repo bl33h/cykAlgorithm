@@ -74,7 +74,8 @@ class CYKParser:
     
     def generate_parse_tree_graph(self, output_file="parse_tree"):
         dot = Digraph(comment='Parse Tree')
-        self._add_parse_tree_to_graph(dot, self.parse_tree[0][-1], "S")  # El nodo inicial es "S"
+        start_symbol = "S0" 
+        self._add_parse_tree_to_graph(dot, self.parse_tree[0][-1], start_symbol)
         dot.render(output_file, format="png", view=True)
         return dot
 
@@ -85,7 +86,9 @@ class CYKParser:
         else:
             variable = node.label
             dot.node(variable, label=variable)
-            dot.edge(parent_label, variable)
+            
+            if variable != "S0" or parent_label != "S0":
+                dot.edge(parent_label, variable)
 
             for child in node.children:
                 self._add_parse_tree_to_graph(dot, child, variable)
