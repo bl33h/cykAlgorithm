@@ -5,7 +5,8 @@
 #Creation: 18/10/2023
 #Last modification: 29/10/2023
 
-from typing import Dict, List, Tuple
+from graphviz import Digraph
+from typing import Dict, List
 
 class TreeNode:
     def __init__(self, label: str, children: List['TreeNode'] = None):
@@ -56,7 +57,7 @@ class CYKParser:
 
     def print_table(self):
         for row in self.table:
-            print("\t".join(["\t".join(map(str, cell)) for cell in row]))
+            print("\t".join(["|".join(cell) if cell else "-" for cell in row]))
 
     def print_parse_tree(self, node=None, depth=0):
         if node is None:
@@ -70,3 +71,21 @@ class CYKParser:
             print("  " * depth + variable)
             for child in node.children:
                 self.print_parse_tree(child, depth + 1)
+    
+    def generate_parse_tree_graph(self, output_file="parse_tree"):
+        dot = Digraph(comment='Parse Tree')
+        self._add_parse_tree_to_graph(dot, self.parse_tree[0][-1], "S")  # El nodo inicial es "S"
+        dot.render(output_file, format="png", view=True)
+        return dot
+
+    def _add_parse_tree_to_graph(self, dot, node, parent_label):
+        if isinstance(node, list):
+            for item in node:
+                self._add_parse_tree_to_graph(dot, item, parent_label)
+        else:
+            variable = node.label
+            dot.node(variable, label=variable)
+            dot.edge(parent_label, variable)
+
+            for child in node.children:
+                self._add_parse_tree_to_graph(dot, child, variable)

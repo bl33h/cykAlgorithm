@@ -13,7 +13,7 @@ from CYK import *
 if __name__ == "__main__":
     #-----CFG file-----
     # Load the json file
-    with open("input.json", "r") as grammar_file:
+    with open("src/input.json", "r") as grammar_file:
         grammar = json.load(grammar_file)
 
 
@@ -26,35 +26,33 @@ if __name__ == "__main__":
 
     # prints the CNF grammar
     print(json.dumps(cnf_grammar, indent=4))
+
+
+    #-----cnf grammar file generator -----
+    cnf_grammar = converter.convert(output_file="src/cnfGrammar.json")
     
+
     #time starts to count
     start = time.time()
     #-----Converted grammar file-----
-    with open("input.json", "r") as convertedGrammar_file:
+    with open("src/cnfGrammar.json", "r") as convertedGrammar_file:
         converterGrammar_json = json.load(convertedGrammar_file)
 
-    #-----CYK Parser-----
+    #-----CYK Parser and Parse Tree-----
     cyk_parser = CYKParser(converterGrammar_json)
     sentence = "he cooks with a knife"
     result = cyk_parser.parse(sentence)
     
-    print(f"Accepted: {result}")
+    print(f"\nAccepted: {result}")
     if result:
         print(f"The sentence '{sentence}' is in the language.")
+        print("\nCYK table generated:")
+        cyk_parser.print_table()
+        parse_tree = cyk_parser.generate_parse_tree_graph()
     else:
         print(f"The sentence '{sentence}' is not in the language.")
     
-    #-----Parse Tree-----
-    is_valid = cyk_parser.parse(sentence)
-    if is_valid:
-        cyk_parser.print_parse_tree()
-    else:
-        pass
-    
     #-----Time-----
     end = time.time()
-    processTime = (end - start) * 1000
-    print("Execution time: {:0.2f} milliseconds".format(processTime))
-
-    #-----cnf grammar file generator -----
-    cnf_grammar = converter.convert(output_file="cnfGrammar.json")
+    processTime = (end - start)
+    print("\nExecution time: {:0.2f} seconds".format(processTime))
