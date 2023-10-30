@@ -56,7 +56,7 @@ class CYKParser:
 
     def print_table(self):
         for row in self.table:
-            print("\t".join(["\t".join(map(str, cell)) for cell in row]))
+            print("\t".join(["|".join(cell) if cell else "-" for cell in row]))
 
     def print_parse_tree(self, node=None, depth=0):
         if node is None:
