@@ -38,6 +38,7 @@ if __name__ == "__main__":
     with open("src/cnfGrammar.json", "r") as convertedGrammar_file:
         converterGrammar_json = json.load(convertedGrammar_file)
 
+    #-----CYK Parser and Parse Tree-----
     cyk_parser = CYKParser(converterGrammar_json)
     sentence = "he cooks with a knife"
     result = cyk_parser.parse(sentence)
@@ -47,12 +48,11 @@ if __name__ == "__main__":
         print(f"The sentence '{sentence}' is in the language.")
         print("\nCYK table generated:")
         cyk_parser.print_table()
-        print("\nParse Tree:")
-        cyk_parser.print_parse_tree()
+        parse_tree = cyk_parser.generate_parse_tree_graph()
     else:
         print(f"The sentence '{sentence}' is not in the language.")
     
     #-----Time-----
     end = time.time()
-    processTime = (end - start) * 1000
-    print("\nExecution time: {:0.2f} milliseconds".format(processTime))
+    processTime = (end - start)
+    print("\nExecution time: {:0.2f} seconds".format(processTime))
