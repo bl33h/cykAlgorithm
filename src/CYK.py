@@ -18,6 +18,11 @@ class CYKParser:
         self.grammar = cnf_grammar
         self.table = None
         self.parse_tree = None
+        self.node_count = -1
+    
+    def get_new_node_id(self) -> int:
+        self.node_count += 1
+        return self.node_count
 
     def parse(self, sentence: str) -> bool:
         variables = self.grammar["VARIABLES"]
@@ -74,21 +79,24 @@ class CYKParser:
     
     def generate_parse_tree_graph(self, output_file="parse_tree"):
         dot = Digraph(comment='Parse Tree')
-        start_symbol = "S0" 
-        self._add_parse_tree_to_graph(dot, self.parse_tree[0][-1], start_symbol)
+        start_symbol = self.grammar["INICIAL"]
+        id = self.get_new_node_id()
+        self._add_parse_tree_to_graph(dot, self.parse_tree[0][-1], id, start_symbol)
         dot.render(output_file, format="png", view=True)
         return dot
 
-    def _add_parse_tree_to_graph(self, dot, node, parent_label):
+    def _add_parse_tree_to_graph(self, dot, node, parent_id, parent_label):
+        start_symbol = self.grammar["INICIAL"]
         if isinstance(node, list):
             for item in node:
-                self._add_parse_tree_to_graph(dot, item, parent_label)
+                self._add_parse_tree_to_graph(dot, item, parent_id, parent_label)
         else:
-            variable = node.label
-            dot.node(variable, label=variable)
+            id = str(self.get_new_node_id())
+            label = node.label
+            dot.node(id, label=label)
             
-            if variable != "S0" or parent_label != "S0":
-                dot.edge(parent_label, variable)
+            if label != start_symbol or parent_label != start_symbol:
+                dot.edge(parent_id, id)
 
             for child in node.children:
-                self._add_parse_tree_to_graph(dot, child, variable)
+                self._add_parse_tree_to_graph(dot, child, id, label)
